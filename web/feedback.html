@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Feedback - Study Hub</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .form-box {
+      background: white;
+      padding: 30px;
+      max-width: 500px;
+      margin: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    input, textarea {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #007BFF;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    a {
+      display: block;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-box">
+    <h2>📬 Give Us Feedback</h2>
+
+    <!-- Option A: Simple Offline form (just visual) -->
+    <!-- Option B: Link to a Google Form -->
+
+    <!-- Use this if you're online: -->
+    <form action="https://docs.google.com/forms/d/e/your-google-form-id/formResponse" method="POST" target="_blank">
+      <input type="text" name="entry.your_name_entry_id" placeholder="Your Name" required>
+      <input type="email" name="entry.your_email_entry_id" placeholder="Your Email" required>
+      <textarea name="entry.your_message_entry_id" rows="5" placeholder="Your feedback..." required></textarea>
+      <br>
+      <button type="submit">Submit Feedback</button>
+    </form>
+
+    <!-- Offline version can just display a message or save in browser (not recommended) -->
+
+    <a href="index.html">← Back to Home</a>
+  </div>
+
+</body>
+</html>

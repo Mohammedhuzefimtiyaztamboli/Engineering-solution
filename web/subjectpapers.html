@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Subject Papers | Study Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --accent: #007bff;
+      --bg: #f4f6fa;
+      --bg-dark: #1f1f2e;
+      --card: #fff;
+      --card-dark: #2c2c3c;
+      --text: #111;
+      --text-dark: #f0f0f0;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    body.dark {
+      background: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    .navbar {
+      background: var(--accent);
+      color: white;
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .toggle-btn {
+      background: white;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+
+    h2 {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 1000px;
+      margin: auto;
+      padding: 0 20px 40px;
+    }
+
+    .column {
+      background: var(--card);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
+
+    body.dark .column {
+      background: var(--card-dark);
+    }
+
+    .column h3 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .paper-link {
+      display: block;
+      background: var(--accent);
+      color: white;
+      padding: 10px;
+      margin: 8px 0;
+      text-align: center;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: 0.3s ease;
+    }
+
+    .paper-link:hover {
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <h3>📘 Subject Papers</h3>
+    <button class="toggle-btn" onclick="toggleTheme()">🌓 Theme</button>
+  </div>
+
+  <h2 id="subjectTitle">Loading...</h2>
+
+  <div class="grid">
+    <div class="column" id="endsemColumn">
+      <h3>📄 Endsem Papers</h3>
+      <!-- Endsem links will go here -->
+    </div>
+    <div class="column" id="insemColumn">
+      <h3>📝 Insem Papers</h3>
+      <!-- Insem links will go here -->
+    </div>
+  </div>
+
+  <script>
+    const papersData = {
+      SE: {
+        Maths: {
+          endsem: [
+            "uploads/questionpapers/SE_Maths_endsem_2022.pdf",
+            "uploads/questionpapers/SE_Maths_endsem_2023.pdf"
+          ],
+          insem: [
+            "uploads/questionpapers/SE_Maths_insem_2022.pdf"
+          ]
+        },
+        DS: {
+          endsem: ["uploads/questionpapers/SE_DS_endsem_2023.pdf"],
+          insem: ["uploads/questionpapers/SE_DS_insem_2023.pdf"]
+        }
+      },
+      TE: {
+        DBMS: {
+          endsem: ["uploads/questionpapers/TE_DBMS_endsem.pdf"],
+          insem: ["uploads/questionpapers/TE_DBMS_insem.pdf"]
+        }
+      }
+      // Add more years/subjects as needed
+    };
+
+    function getQueryParams() {
+      const params = {};
+      const search = window.location.search.substring(1);
+      const pairs = search.split("&");
+      pairs.forEach(pair => {
+        const [key, value] = pair.split("=");
+        params[key] = decodeURIComponent(value);
+      });
+      return params;
+    }
+
+    function loadPapers() {
+      const { subject, year } = getQueryParams();
+      const title = document.getElementById("subjectTitle");
+      const endCol = document.getElementById("endsemColumn");
+      const inCol = document.getElementById("insemColumn");
+
+      if (!subject || !year || !papersData[year] || !papersData[year][subject]) {
+        title.textContent = "No papers found!";
+        return;
+      }
+
+      title.textContent = `${subject} (${year})`;
+
+      const paperInfo = papersData[year][subject];
+
+      paperInfo.endsem.forEach(file => {
+        const link = document.createElement("a");
+        link.href = file;
+        link.textContent = file.split("/").pop().replaceAll("_", " ");
+        link.className = "paper-link";
+        inCol.insertAdjacentElement("beforebegin", link.cloneNode(true));
+        endCol.appendChild(link);
+      });
+
+      paperInfo.insem.forEach(file => {
+        const link = document.createElement("a");
+        link.href = file;
+        link.textContent = file.split("/").pop().replaceAll("_", " ");
+        link.className = "paper-link";
+        inCol.appendChild(link);
+      });
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle("dark");
+    }
+
+    window.onload = loadPapers;
+  </script>
+</body>
+</html>

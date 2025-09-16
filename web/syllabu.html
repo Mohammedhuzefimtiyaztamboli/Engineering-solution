@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Syllabus | Study Hub</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --accent: #ffc107;
+      --bg: #f0f4f8;
+      --bg-dark: #1f1f2e;
+      --card: #ffffff;
+      --card-dark: #2c2c3c;
+      --text: #111;
+      --text-dark: #f9f9f9;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: 0.3s ease;
+    }
+
+    body.dark {
+      background: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    .navbar {
+      background: var(--accent);
+      color: white;
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .toggle-btn {
+      background: white;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: var(--card);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    body.dark .container {
+      background: var(--card-dark);
+    }
+
+    select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .syllabus a {
+      display: block;
+      padding: 10px;
+      background-color: var(--accent);
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+      margin-bottom: 10px;
+      transition: 0.2s;
+    }
+
+    .syllabus a:hover {
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <h2>📑 Syllabus</h2>
+    <button class="toggle-btn" onclick="toggleTheme()">🌓 Theme</button>
+  </div>
+
+  <div class="container">
+    <select id="year" onchange="loadSubjects()">
+      <option value="">-- Select Year --</option>
+      <option value="FE">First Year (FE)</option>
+      <option value="SE">Second Year (SE)</option>
+      <option value="TE">Third Year (TE)</option>
+      <option value="BE">Final Year (BE)</option>
+    </select>
+
+    <select id="subject" onchange="loadSyllabus()">
+      <option value="">-- Select Subject --</option>
+    </select>
+
+    <div class="syllabus" id="syllabusList"></div>
+  </div>
+
+  <script>
+    const subjectsByYear = {
+      FE: ["Maths", "Physics"],
+      SE: ["DS", "OOP"],
+      TE: ["DBMS", "Web Tech"],
+      BE: ["AI", "ML"]
+    };
+
+    const syllabusBySubject = {
+      "Maths": ["uploads/syllabus/FE_maths_syllabus.pdf"],
+      "Physics": ["uploads/syllabus/FE_physics_syllabus.pdf"],
+      "DS": ["uploads/syllabus/SE_ds_syllabus.pdf"],
+      "OOP": ["uploads/syllabus/SE_oop_syllabus.pdf"],
+      "DBMS": ["uploads/syllabus/TE_dbms_syllabus.pdf"],
+      "Web Tech": ["uploads/syllabus/TE_web_syllabus.pdf"],
+      "AI": ["uploads/syllabus/BE_ai_syllabus.pdf"],
+      "ML": ["uploads/syllabus/BE_ml_syllabus.pdf"]
+    };
+
+    function toggleTheme() {
+      document.body.classList.toggle("dark");
+    }
+
+    function loadSubjects() {
+      const year = document.getElementById("year").value;
+      const subjectSelect = document.getElementById("subject");
+      subjectSelect.innerHTML = '<option value="">-- Select Subject --</option>';
+      if (subjectsByYear[year]) {
+        subjectsByYear[year].forEach(subject => {
+          const opt = document.createElement("option");
+          opt.value = subject;
+          opt.textContent = subject;
+          subjectSelect.appendChild(opt);
+        });
+      }
+      document.getElementById("syllabusList").innerHTML = "";
+    }
+
+    function loadSyllabus() {
+      const subject = document.getElementById("subject").value;
+      const container = document.getElementById("syllabusList");
+      container.innerHTML = "";
+      if (syllabusBySubject[subject]) {
+        syllabusBySubject[subject].forEach(file => {
+          const link = document.createElement("a");
+          link.href = file;
+          link.textContent = file.split("/").pop().replaceAll("_", " ");
+          container.appendChild(link);
+        });
+      }
+    }
+  </script>
+</body>
+</html>
